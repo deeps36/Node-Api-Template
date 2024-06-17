@@ -3,7 +3,7 @@ const db = require("../models");
 const myRes = require("../utils/responseHandler");
 
 
-// Change according to use as it's configured not according to user table
+// Change according to use, as it's configured not according to user table
 exports.registerUser = (req, res) => {
     if (params.verifyParam(req, res) === true) {
         const tokenPayload = {
