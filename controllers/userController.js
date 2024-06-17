@@ -3,7 +3,7 @@ const db = require("../models");
 const myRes = require("../utils/responseHandler");
 
 
-
+// Change according to use as it's configured not according to user table
 exports.registerUser = (req, res) => {
     if (params.verifyParam(req, res) === true) {
         const tokenPayload = {
@@ -13,15 +13,15 @@ exports.registerUser = (req, res) => {
         const refreshToken = jwt.generateRefreshToken(tokenPayload);
 
 
-        db.auth.create({
+        db.user.create({
             username: req.body['user_token'],
             email: req.body['email'],
             phone: req.body['phone'],
             password: req.body['password'],
-            user_token: req.body['user_token'],
-            fcm_token: req.body['fcm_token'],
-            login_type: req.body['login_type'],
-            status: req.body['status'],
+            // user_token: req.body['user_token'],  //for firebase
+            // fcm_token: req.body['fcm_token'],    //for firebase
+            // login_type: req.body['login_type'],  //for firebase
+            // status: req.body['status'],
         }).then(user => {
             db.privacy.create({
                 uid: user.user_id,
