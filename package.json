@@ -1,8 +1,8 @@
 {
   "name": "api_template",
   "version": "1.0.0",
-  "description": "FitNat",
-  "main": "index.js",
+  "description": "Api Template",
+  "main": "server.js",
   "scripts": {
     "start": "nodemon server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
