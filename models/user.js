@@ -32,9 +32,6 @@ module.exports = (sequelize, Sequelize) => {
             allowNull: false
         }
     });
-    user.associate = (models) => {
-        user.hasMany(models.patient, { foreignKey: 'created_by' });
-    };
     
     return user;
 };
