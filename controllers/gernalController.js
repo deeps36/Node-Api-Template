@@ -3,39 +3,38 @@ const myRes = require("../utils/responseHandler");
 
 exports.insertData = async (req, res) => {
     try {
-        const body = req.body;
-
-        if (!body?.table) { 
-            return myRes.errorResponse(res, "Table name not provided.");
-        }
-
-        if (Object.keys(body).length === 0) {
-            return myRes.errorResponse(res, "No fields provided for insert.");
-        }
-
-        console.log(">>>>>",body)
-        const dynamicModel = db[body?.table];
-
-        if (!dynamicModel) {
-            return myRes.errorResponse(res, "Table Not Found");
-        }
-        delete body["table"]
-
-        const newRecord = dynamicModel.build(body);
-
-        await newRecord.save();
-
-        const lastRecord = await dynamicModel.findOne({
-            where: {
-                id: newRecord.id
-            }
-        });
-
-        myRes.successResponse(res, lastRecord);
+      const { table } = req.body;
+  
+      if (!table) {
+        return myRes.errorResponse(res, "Table name not provided.");
+      }
+  
+      const fieldsToInsert = req.body || {};
+      const validFields = Object.keys(fieldsToInsert).filter(field => field !== "table");
+  
+      if (!validFields.length) {
+        return myRes.errorResponse(res, "No valid fields provided for insert.");
+      }
+  
+      const dynamicModel = db[table];
+  
+      if (!dynamicModel) {
+        return myRes.errorResponse(res, "Table Not Found");
+      }
+  
+      const newRecord = dynamicModel.build();
+  
+      validFields.forEach((field) => {
+        newRecord[field] = fieldsToInsert[field];
+      });
+  
+      var resd = await newRecord.save();
+  
+      myRes.successResponse(res, { msg: `${table} data inserted successfully.`, id: resd });
     } catch (error) {
-        myRes.errorResponse(res, error.message);
+      myRes.errorResponse(res, error.message);
     }
-};
+  };
 
 exports.updateData = async (req, res) => {
     try {

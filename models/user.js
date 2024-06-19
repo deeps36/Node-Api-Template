@@ -27,10 +27,6 @@ module.exports = (sequelize, Sequelize) => {
             allowNull: false,
             default: false
         },
-        type_id: {
-            type: Sequelize.INTEGER,
-            allowNull: false
-        }
     });
     
     return user;
