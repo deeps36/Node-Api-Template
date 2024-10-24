@@ -1,13 +1,15 @@
-module.exports = app => {
-    const gernal = require("../controllers/gernalController.js");
+import express from 'express';
+import * as gernal from '../controllers/gernalController.js'; // Import all controller functions
 
-    var router = require("express").Router();
+const router = express.Router();
 
-    router.post("/insertData", gernal.insertData);
-    router.post("/updateData", gernal.updateData);
-    router.post("/getData", gernal.getData);
-    router.post("/deleteData", gernal.deleteData);
+// Define routes
+router.post('/insertData', gernal.insertData);
+router.post('/updateData', gernal.updateData);
+router.post('/getData', gernal.getData);
+router.post('/deleteData', gernal.deleteData);
 
-    app.use("/", router);
+// Export the router function
+export default (app) => {
+    app.use('/', router);
 };
-      

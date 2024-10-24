@@ -1,14 +1,14 @@
-service: magsonapi
+service: nodetemplate
 
 frameworkVersion: "3"
 
 provider:
   name: aws
+  runtime: nodejs20.x 
   memorySize: 2048
   stage: dev
   timeout: 15
-  runtime: nodejs18.x
-  # region: ap-south-1 #to comment
+  # region: ap-south-1 # Uncomment if you want to specify a region
 
 functions:
   hello:

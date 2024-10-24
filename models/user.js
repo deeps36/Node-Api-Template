@@ -1,35 +1,35 @@
-module.exports = (sequelize, Sequelize) => {
+import Sequelize from 'sequelize';
+
+export default (sequelize) => {
     const user = sequelize.define('user_master', {
         id: {
             type: Sequelize.INTEGER,
             primaryKey: true,
-            autoIncrement: true
+            autoIncrement: true,
         },
         name: {
             type: Sequelize.STRING,
-            allowNull: false
+            allowNull: false,
         },
         mobile: {
             type: Sequelize.STRING,
-            allowNull: false
+            allowNull: false,
         },
         username: {
             type: Sequelize.STRING,
             allowNull: false,
-            unique: true
+            unique: true,
         },
         password: {
             type: Sequelize.STRING,
-            allowNull: false
+            allowNull: false,
         },
         isMaster: {
             type: Sequelize.BOOLEAN,
             allowNull: false,
-            default: false
+            defaultValue: false, 
         },
     });
-    
+
     return user;
 };
-
-

@@ -1,10 +1,10 @@
-module.exports = app => {
-    const user = require("../controllers/userController.js");
+import express from 'express';
+import * as user from '../controllers/userController.js'; 
 
-    var router = require("express").Router();
+const router = express.Router();
 
-    router.post("/login", user.login);
-    
-    app.use("/", router);
+router.post('/login', user.login);
+
+export default (app) => {
+    app.use('/', router);
 };
-      

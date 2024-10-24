@@ -1,30 +1,33 @@
-require('dotenv').config();
-const express = require('express');
-const serverless = require('serverless-http');
-const bodyParser = require('body-parser');
-const cors = require('cors'); 
+import dotenv from 'dotenv';
+import express from 'express';
+import serverless from 'serverless-http';
+import bodyParser from 'body-parser';
+import cors from 'cors';
+
+// Load environment variables
+dotenv.config();
 
 const app = express();
 app.use(bodyParser.json());
 app.use(cors());
 
-//Database
-const db = require("./models");
+// Database
+import db from './models'; // Ensure models are exported correctly
 
+db.sequelize.sync({ force: false })
+    .then(() => {
+        console.log("Synced db.");
+    })
+    .catch((err) => {
+        console.error("Failed to sync db: " + err.message);
+    });
+console.log("Synced db.");
+// Routes
+import userRoutes from './routes/user.routes.js';
+import gernalRoutes from './routes/gernal.routes.js';
 
-// db.sequelize.sync({ force: false })
-//   .then(() => {
-//     console.log("Synced db.");
-//   })
-//   .catch((err) => {
-//     console.error("Failed to sync db: " + err.message);
-//   });
-console.log("Synced db.");  
-
-//Routes
-require("./routes/user.routes")(app);
-require("./routes/gernal.routes")(app);
-
+userRoutes(app);
+gernalRoutes(app);
 
 app.get("/", (req, res) => {
     res.json({ message: "Welcome to API Template Application." });
@@ -34,20 +37,18 @@ app.post("/", (req, res) => {
     res.json({ message: "Welcome to API Template Application." });
 });
 
-
-
 const PORT = process.env.SERVER_LOCAL_PORT || 3000;
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
     console.log(`Server listening on port http://localhost:${PORT}`);
 });
 
-
-process.on('unhandledRejection', err => {
+process.on('unhandledRejection', (err) => {
     console.log(`[unhandledRejection] Shutting down server...`);
     console.log(err);
     server.close(() => {
-      process.exit(1);
+        process.exit(1);
     });
-  });
-  
-  module.exports.appServer = serverless(app);
+});
+
+// Export server for serverless
+export const appServer = serverless(app);
