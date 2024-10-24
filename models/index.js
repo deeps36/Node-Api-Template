@@ -1,7 +1,6 @@
-// Import necessary modules
 import { Sequelize } from 'sequelize';
 import dbConfig from '../config/database.js';
-import initUserModel from './user.js'; // Adjust based on your model location
+import initUserModel from './user.js'; 
 
 // Create a Sequelize instance
 const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
@@ -27,10 +26,8 @@ const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
 const db = {
   Sequelize,
   sequelize,
+  user: initUserModel(sequelize, Sequelize), // Initialize user model
 };
-
-// Import and initialize all models
-db.user = initUserModel(sequelize, Sequelize);
 
 // Apply associations if defined in models
 Object.values(db).forEach((model) => {
@@ -39,4 +36,5 @@ Object.values(db).forEach((model) => {
   }
 });
 
+// Export the database object
 export default db;

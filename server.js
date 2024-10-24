@@ -12,16 +12,17 @@ app.use(bodyParser.json());
 app.use(cors());
 
 // Database
-import db from './models'; // Ensure models are exported correctly
+import db from './models/index.js'; // Ensure this path is correct
 
-db.sequelize.sync({ force: false })
-    .then(() => {
-        console.log("Synced db.");
-    })
-    .catch((err) => {
-        console.error("Failed to sync db: " + err.message);
-    });
+// db.sequelize.sync({ force: false })
+//     .then(() => {
+//         console.log("Synced db.");
+//     })
+//     .catch((err) => {
+//         console.error("Failed to sync db: " + err.message);
+//     });
 console.log("Synced db.");
+
 // Routes
 import userRoutes from './routes/user.routes.js';
 import gernalRoutes from './routes/gernal.routes.js';
